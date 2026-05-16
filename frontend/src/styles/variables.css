@@ -1,0 +1,126 @@
+/* ==========================================================================
+   VARIABLES.CSS — Global CSS Custom Properties (Design Tokens)
+   ==========================================================================
+   
+   This is the SINGLE SOURCE OF TRUTH for all design values used across the app.
+   To change the look & feel of the entire website, edit values here.
+   
+   HOW TO USE:
+   - Colors:    var(--navy), var(--accent), etc.
+   - Spacing:   var(--spacing-sm), var(--spacing-md), etc.
+   - Radius:    var(--radius), var(--radius-sm)
+   - Font:      var(--font-primary), var(--font-display)
+   
+   TODO [CSS]: To create a new theme, duplicate the :root block and
+   wrap it in a class like .theme-dark { ... }
+   ========================================================================== */
+
+:root {
+   /* ===== PRIMARY COLORS =====
+     Main brand colors used throughout the app.
+     TODO [CSS]: Change these to match your brand identity. */
+   --navy: #1a2f5e;
+   --navy-dark: #0f1d3d;
+   --navy-light: #2a4080;
+
+   /* ===== ACCENT COLORS =====
+     Used for highlights, selected states, active indicators.
+     TODO [CSS]: These are derived from --navy. Update if you change the brand color. */
+   --accent: #1a2f5e;
+   --accent-light: #e8edf8;
+
+   /* ===== NEUTRAL COLORS =====
+     Background, card, and border colors. */
+   --white: #ffffff;
+   --bg: #f8fafc;
+   /* Page background */
+   --card-bg: #ffffff;
+   /* Card/panel backgrounds */
+   --border: #e2e8f0;
+   /* Default border color */
+
+   /* ===== TEXT COLORS =====
+     Three levels of text emphasis for hierarchy. */
+   --text: #1a2540;
+   /* Primary text — headings, body */
+   --text-muted: #6b7a99;
+   /* Secondary text — labels, descriptions */
+   --text-light: #9aa3bc;
+   /* Tertiary text — placeholders, hints */
+
+   /* ===== STATUS COLORS =====
+     Background and text colors for status badges.
+     Each status has a bg (light) and text (dark) pair.
+     TODO [CSS]: Add more statuses here if needed (e.g., --draft-bg, --draft-text). */
+   --success-bg: #e6f7ee;
+   --success-text: #1a7a45;
+   --pending-bg: #fff8e6;
+   --pending-text: #8a5f00;
+   --rejected-bg: #fde8e8;
+   --rejected-text: #9b1c1c;
+
+   /* ===== DANGER / ERROR COLOR =====
+     Used for remove buttons, required markers, error states. */
+   --danger: #dc2626;
+   --danger-light: #fca5a5;
+   --danger-bg: #fef2f2;
+
+   /* ===== SUCCESS COLOR =====
+     Used for uploaded file states, success toasts. */
+   --success: #16a34a;
+   --success-light: #f0fdf4;
+
+   /* ===== BORDER RADIUS =====
+     Consistent rounding across all components.
+     TODO [CSS]: Increase these for a more "rounded" look, decrease for sharper edges. */
+   --radius: 12px;
+   /* Cards, modals */
+   --radius-sm: 8px;
+   /* Buttons, inputs, small elements */
+   --radius-pill: 20px;
+   /* Badges, pills */
+
+   /* ===== SPACING =====
+     Consistent spacing scale. Used for padding, margin, gap.
+     TODO [CSS]: Adjust the scale if you want tighter or looser layouts. */
+   --spacing-xs: 4px;
+   --spacing-sm: 8px;
+   --spacing-md: 16px;
+   --spacing-lg: 24px;
+   --spacing-xl: 32px;
+   --spacing-2xl: 40px;
+
+   /* ===== TYPOGRAPHY =====
+     Font families used across the app.
+     TODO [CSS]: Change --font-primary to your preferred font (e.g., Inter, Roboto). */
+   --font-primary: 'DM Sans', sans-serif;
+   --font-display: 'DM Serif Display', serif;
+
+   /* ===== FONT SIZES =====
+     Standardized type scale.
+     TODO [CSS]: Adjust for larger/smaller base text. */
+   --text-xs: 12px;
+   --text-sm: 13px;
+   --text-base: 14px;
+   --text-md: 16px;
+   --text-lg: 17px;
+   --text-xl: 22px;
+   --text-2xl: 24px;
+
+   /* ===== LAYOUT =====
+     Page-level layout constraints. */
+   --page-max-width: 1200px;
+   --navbar-height: 64px;
+
+   /* ===== SHADOWS =====
+     Box shadows for elevated elements.
+     TODO [CSS]: Adjust for more/less depth. */
+   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+   --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+   /* ===== TRANSITIONS =====
+     Default transition speed for hover/focus effects. */
+   --transition-fast: 0.15s;
+   --transition-normal: 0.25s;
+}

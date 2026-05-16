@@ -1,0 +1,131 @@
+/* ==========================================================================
+   EventRequestContext.jsx — Shared State for Event Requests
+   ==========================================================================
+   
+   Provides:
+   - requests        (array):    The current list of event requests
+   - addRequest      (function): Add a new request from form submission data
+   - updateRequest   (function): Update an existing request by ID
+   - deleteRequest   (function): Delete a request by ID
+   
+   TODO [BACKEND]: Replace this context with API calls:
+   - GET    /api/event-requests      → fetch all requests
+   - POST   /api/event-requests      → create new request
+   - PUT    /api/event-requests/:id  → update request
+   - DELETE /api/event-requests/:id  → delete request
+   ========================================================================== */
+
+import { createContext, useContext, useState } from "react";
+import { INITIAL_REQUESTS, LECTURE_TYPE_MAP } from "../constants";
+
+const EventRequestContext = createContext();
+
+/**
+ * Custom hook to access the event request context.
+ */
+export function useEventRequests() {
+  const context = useContext(EventRequestContext);
+  if (!context) {
+    throw new Error("useEventRequests must be used within an EventRequestProvider");
+  }
+  return context;
+}
+
+/**
+ * EventRequestProvider — Wraps the app to provide shared event request state.
+ */
+export function EventRequestProvider({ children }) {
+  const [requests, setRequests] = useState(INITIAL_REQUESTS);
+  const [nextId, setNextId] = useState(INITIAL_REQUESTS.length + 1);
+
+  /**
+   * Add a new event request from form submission data.
+   */
+  const addRequest = (formData) => {
+    // Use the form's eventDate if provided, otherwise use today
+    let formattedDate;
+    if (formData.eventDate) {
+      const d = new Date(formData.eventDate + "T00:00:00");
+      formattedDate = d.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } else {
+      formattedDate = new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+
+    const newRequest = {
+      id: nextId,
+      topic: formData.lectureTitle,
+      code: formData.courseCode,
+      course: formData.courseTitle,
+      lectureBy: LECTURE_TYPE_MAP[formData.lectureType] || "Indian Expert",
+      date: formattedDate,
+      status: "Pending",
+      // Store full form data so we can edit later
+      formData: { ...formData },
+    };
+
+    setRequests((prev) => [newRequest, ...prev]);
+    setNextId((n) => n + 1);
+  };
+
+  /**
+   * Update an existing event request by ID.
+   */
+  const updateRequest = (id, formData) => {
+    let formattedDate;
+    if (formData.eventDate) {
+      const d = new Date(formData.eventDate + "T00:00:00");
+      formattedDate = d.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } else {
+      formattedDate = new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    }
+
+    setRequests((prev) =>
+      prev.map((r) =>
+        r.id === id
+          ? {
+              ...r,
+              topic: formData.lectureTitle,
+              code: formData.courseCode,
+              course: formData.courseTitle,
+              lectureBy: LECTURE_TYPE_MAP[formData.lectureType] || "Indian Expert",
+              date: formattedDate,
+              formData: { ...formData },
+            }
+          : r
+      )
+    );
+  };
+
+  /**
+   * Delete an event request by ID.
+   */
+  const deleteRequest = (id) => {
+    setRequests((prev) => prev.filter((r) => r.id !== id));
+  };
+
+  return (
+    <EventRequestContext.Provider
+      value={{ requests, addRequest, updateRequest, deleteRequest }}
+    >
+      {children}
+    </EventRequestContext.Provider>
+  );
+}
+
+export default EventRequestContext;

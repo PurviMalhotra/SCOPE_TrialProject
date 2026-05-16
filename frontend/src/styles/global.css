@@ -1,0 +1,72 @@
+/* ==========================================================================
+   GLOBAL.CSS — Resets, Base Styles, Typography, and Shared Utilities
+   ==========================================================================
+   
+   This file contains:
+   1. CSS Reset (box-sizing, margin, padding)
+   2. Body and root element styles
+   3. Font import (Google Fonts)
+   4. Page layout wrapper (.page)
+   5. Responsive breakpoints
+   
+   NOTE: This file should NOT contain component-specific styles.
+   Those go in their own CSS files (navbar.css, dashboard.css, etc.)
+   ========================================================================== */
+
+/* ===== GOOGLE FONTS IMPORT =====
+   TODO [CSS]: Change fonts here. Update --font-primary in variables.css too. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+/* ===== CSS RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== BODY STYLES =====
+   Sets the default font, background, and text color for the entire app. */
+body {
+  font-family: var(--font-primary);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== ROOT ELEMENT =====
+   Removes the constrained width from the Vite boilerplate.
+   The app should take the full viewport width. */
+#root {
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+  border: none;
+  min-height: 100vh;
+}
+
+/* ===== PAGE LAYOUT WRAPPER =====
+   Used as the main content container on every page.
+   Centers content with a max-width and consistent padding.
+   TODO [CSS]: Adjust --page-max-width in variables.css to make content wider/narrower. */
+.page {
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+}
+
+/* ===== REQUIRED FIELD MARKER =====
+   Red asterisk shown next to required form labels. */
+.required {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS =====
+   TODO [CSS]: Adjust breakpoints and mobile padding as needed. */
+@media (max-width: 768px) {
+  .page {
+    padding: 20px;
+  }
+}

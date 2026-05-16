@@ -1,0 +1,396 @@
+/* ==========================================================================
+   FORM.CSS — Event Request Form Styles
+   ==========================================================================
+   Component: <EventRequestForm />  |  Location: src/pages/EventRequestForm.jsx
+   
+   Sections:
+   1. Form page header (back button + guidelines)
+   2. Form card sections (white card containers)
+   3. Radio group (lecture type selection)
+   4. Faculty table (dynamic faculty rows)
+   5. Form fields (inputs, textareas, labels)
+   6. Template grid (brochure template selection)
+   7. Enclosure table (file upload checklist)
+   8. Form footer (cancel + submit buttons)
+   ========================================================================== */
+
+/* ===== 1. FORM PAGE HEADER ===== */
+.form-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+/* Back / title button at the top of the form */
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-primary);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.back-btn span {
+  font-size: var(--text-xl);
+}
+
+/* ===== 2. FORM CARD SECTIONS ===== */
+.form-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* White card container for each form section */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 28px;
+}
+
+/* Card header: icon + title + subtitle */
+.form-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f2f7;
+}
+
+/* Icon square in card header */
+.form-card-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--accent-light);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+  color: var(--navy);
+}
+
+.form-card-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+
+.form-card-sub {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+/* ===== 3. RADIO GROUP =====
+   Lecture type selector (Foreign Expert / Indian Expert / VIT Alumni).
+   TODO [BACKEND]: lectureType value is sent in form submission payload. */
+.radio-group {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 160px;
+  padding: 14px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text);
+  background: var(--white);
+  user-select: none;
+}
+
+.radio-option:hover {
+  border-color: var(--navy);
+  background: var(--accent-light);
+}
+
+.radio-option.selected {
+  border-color: var(--navy);
+  background: var(--accent-light);
+  color: var(--navy);
+}
+
+/* Custom radio circle indicator */
+.radio-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.radio-option.selected .radio-circle {
+  border-color: var(--navy);
+}
+
+.radio-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--navy);
+  display: none;
+}
+
+.radio-option.selected .radio-dot {
+  display: block;
+}
+
+/* ===== 4. FACULTY TABLE =====
+   Dynamic table for adding/removing faculty members.
+   TODO [BACKEND]: Faculty data (employeeId, name) should be validated server-side. */
+.faculty-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.faculty-table th {
+  text-align: left;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.faculty-table td {
+  padding: 10px 0;
+  vertical-align: middle;
+}
+
+/* Input fields inside faculty table rows */
+.faculty-input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition-fast);
+  background: white;
+}
+
+.faculty-input:focus {
+  border-color: var(--navy);
+}
+
+.faculty-input::placeholder {
+  color: var(--text-light);
+}
+
+/* ===== 5. FORM FIELDS =====
+   Standard form inputs, labels, and grid layouts.
+   TODO [BACKEND]: All form field values are sent in the submission payload. */
+.form-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.form-grid-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text);
+}
+
+.form-input {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition-fast);
+  background: white;
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: var(--navy);
+}
+
+.form-input::placeholder {
+  color: var(--text-light);
+}
+
+/* Textarea variant of form-input */
+.form-input.textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* ===== 6. TEMPLATE GRID =====
+   Brochure template cards in a 4-column grid.
+   TODO [BACKEND]: Selected template ID is sent in the submission payload. */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.template-card {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  background: var(--white);
+}
+
+.template-card:hover {
+  border-color: var(--navy);
+  background: var(--accent-light);
+}
+
+.template-card.selected {
+  border-color: var(--navy);
+  background: var(--accent-light);
+}
+
+.template-icon {
+  width: 64px;
+  height: 80px;
+  background: #e8edf8;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: var(--navy);
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.template-card.selected .template-icon {
+  background: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+
+.template-name {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.template-card.selected .template-name {
+  color: var(--navy);
+}
+
+/* ===== 7. ENCLOSURE TABLE =====
+   Document checklist with file upload buttons.
+   TODO [BACKEND]: Wire file uploads to your file storage API (e.g., S3, GCS). */
+.enclosure-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.enclosure-table th {
+  text-align: left;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.enclosure-table td {
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f2f7;
+  font-size: var(--text-base);
+}
+
+.enclosure-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* File upload button — changes style when file is uploaded */
+.file-upload-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  border: 1.5px solid var(--border);
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.file-upload-btn:hover {
+  border-color: var(--navy);
+  color: var(--navy);
+}
+
+/* Uploaded state — green border and text */
+.file-upload-btn.uploaded {
+  border-color: var(--success);
+  color: var(--success);
+  background: var(--success-light);
+}
+
+/* ===== 8. FORM FOOTER =====
+   Submit and cancel buttons at the bottom of the form. */
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: 20px 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .template-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .radio-group {
+    flex-direction: column;
+  }
+}
