@@ -35,9 +35,30 @@ ${rawText}
 
   const result = await model.generateContent(prompt);
 
-  const responseText = result.response.text().trim();
+  let responseText = result.response.text().trim();
 
-  return JSON.parse(responseText);
+  // remove triple-backtick code fences
+  responseText = responseText.replace(/```(?:json)?\n?/g, "").replace(/```/g, "").trim();
+
+  // to locate the first JSON object in the response text and parse it
+  const firstBrace = responseText.indexOf("{");
+  if (firstBrace === -1) {
+    throw new Error(`No JSON object found in model response: ${responseText}`);
+  }
+
+  for (let i = responseText.length - 1; i >= firstBrace; i--) {
+    if (responseText[i] !== "}") continue;
+    const candidate = responseText.substring(firstBrace, i + 1);
+    try {
+      return JSON.parse(candidate);
+    } catch (e) {
+      
+    }
+  }
+
+  // As a last resort, throw with response included to aid debugging
+  throw new Error(`Could not parse JSON from model response: ${responseText}`);
 };
 
 module.exports = analyzeResumeWithGemini;
+
