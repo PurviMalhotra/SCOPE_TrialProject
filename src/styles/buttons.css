@@ -1,0 +1,179 @@
+/* ==========================================================================
+   BUTTONS.CSS — All Button Variants
+   ==========================================================================
+   
+   This file contains every button style used across the app.
+   All buttons share the same font-family, border-radius, and transition.
+   
+   Variants:
+   - .btn-primary    — Filled navy button (main CTA)
+   - .btn-outline    — Bordered navy button (secondary action)
+   - .btn-cancel     — Light bordered button (cancel/back)
+   - .btn-submit     — Filled navy button (form submit)
+   - .btn-add        — Small filled button (add faculty row)
+   - .btn-remove     — Red bordered button (remove faculty row)
+   - .icon-btn       — Square icon-only button (view/edit actions)
+   
+   TODO [CSS]: To create a new button variant, copy an existing class
+   and modify colors/padding.
+   ========================================================================== */
+
+/* ===== PRIMARY BUTTON =====
+   Main call-to-action. Used for "New Event Request", etc. */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy);
+  border: none;
+  color: white;
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: 700;
+  padding: var(--spacing-sm) 18px;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background: var(--navy-light);
+}
+
+/* ===== OUTLINE BUTTON =====
+   Secondary action. Used for "View Guidelines", etc. */
+.btn-outline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--white);
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: 700;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-outline:hover {
+  background: var(--accent-light);
+}
+
+/* ===== CANCEL BUTTON =====
+   Used in form footer to cancel/go back. */
+.btn-cancel {
+  background: white;
+  border: 1.5px solid var(--navy);
+  color: var(--text);
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-cancel:hover {
+  border-color: var(--text-muted);
+}
+
+/* ===== SUBMIT BUTTON =====
+   Used in form footer to submit the request.
+   TODO [BACKEND]: This triggers the form submission handler. */
+.btn-submit {
+  background: var(--navy);
+  border: none;
+  color: white;
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: 700;
+  padding: 10px 28px;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-submit:hover {
+  background: var(--navy-light);
+}
+
+/* ===== ADD BUTTON =====
+   Small button to add a new faculty row. */
+.btn-add {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy);
+  border: none;
+  color: white;
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-add:hover {
+  background: var(--navy-light);
+}
+
+/* ===== REMOVE BUTTON =====
+   Red-bordered button to remove a faculty row. */
+.btn-remove {
+  background: none;
+  border: 1px solid var(--danger-light);
+  color: var(--danger);
+  font-family: var(--font-primary);
+  font-size: var(--text-sm);
+  padding: 6px var(--spacing-sm);
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-remove:hover {
+  background: var(--danger-bg);
+}
+
+/* ===== ICON BUTTON =====
+   Square button with only an icon (view, edit, delete actions).
+   Add .disabled class to grey out and prevent clicks. */
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  font-size: var(--text-md);
+}
+
+.icon-btn:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Disabled state for icon buttons (e.g., can't edit approved requests) */
+.icon-btn.disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Danger variant for delete buttons — red on hover */
+.icon-btn.icon-btn-danger:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+}

@@ -1,0 +1,27 @@
+/* ==========================================================================
+   INDEX.CSS — Style Import Hub
+   ==========================================================================
+   
+   This file imports all CSS files in the correct order.
+   The order matters because later files can override earlier ones.
+   
+   Import Order:
+   1. variables.css  — CSS custom properties (design tokens) — MUST be first
+   2. global.css     — Resets, body styles, typography
+   3. buttons.css    — All button variants (shared across pages)
+   4. navbar.css     — Top navigation bar
+   5. dashboard.css  — Dashboard page (table, search, status badges)
+   6. form.css       — Event request form (cards, inputs, templates)
+   7. responsive.css — Responsive breakpoints (MUST be last to override)
+   
+   TODO [CSS]: To add a new component's styles, create a new .css file
+   in src/styles/ and add an @import line here.
+   ========================================================================== */
+
+@import './styles/variables.css';
+@import './styles/global.css';
+@import './styles/buttons.css';
+@import './styles/navbar.css';
+@import './styles/dashboard.css';
+@import './styles/form.css';
+@import './styles/responsive.css';
