@@ -1,2 +1,21 @@
+# dependencies
+node_modules/
+
+# build files
+dist/
+build/
+
+# environment variables
+.env
+
+# logs
+npm-debug.log*
+
+# macOS
 .DS_Store
-node_modules
+
+# Vite
+.vite/
+
+# coverage
+coverage/
