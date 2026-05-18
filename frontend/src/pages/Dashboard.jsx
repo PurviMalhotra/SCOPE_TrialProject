@@ -73,6 +73,7 @@ export default function Dashboard({ onNewRequest, onViewRequest, onEditRequest, 
       </div>
 
       {/* ===== DATA TABLE ===== */}
+      <div className="table-box">
       <div className="table-card">
         <div className="table-scroll-wrapper">
           <table>
@@ -150,6 +151,7 @@ export default function Dashboard({ onNewRequest, onViewRequest, onEditRequest, 
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </div>
   );

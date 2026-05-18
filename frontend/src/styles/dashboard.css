@@ -14,8 +14,8 @@
 
 .dashboard-title {
   font-size: var(--text-2xl);
-  font-weight: 600;
-  color: var(--navy);
+  font-weight: 700;
+  color: var(--navy-dark);
 }
 
 .dashboard-controls {
@@ -26,12 +26,11 @@
 
 /* ===== REQUEST COUNT BADGE ===== */
 .request-count {
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   color: var(--text-muted);
   background: var(--bg);
   padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
+  font-weight: 400
 }
 
 /* ===== SEARCH BOX =====
@@ -44,7 +43,8 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 0 14px;
-  height: 38px;
+  height: 36px;
+  width: 256px;
 }
 
 .search-box input {
@@ -59,6 +59,18 @@
 
 .search-box input::placeholder {
   color: var(--text-light);
+}
+
+/* ===== TABLE BOX (outer wrapper) ===== */
+.table-box {
+  width: 100%;
+  padding: 16px;
+  background: var(--white);
+  border-radius: 14px;
+  border: 0.67px solid rgba(0, 0, 0, 0.10);
+  box-shadow:
+    0 2px 4px -2px rgba(0, 0, 0, 0.10),
+    0 4px 6px -1px rgba(0, 0, 0, 0.10);
 }
 
 /* ===== TABLE CARD ===== */
@@ -76,10 +88,10 @@ table {
 
 /* ===== TABLE HEADER ===== */
 thead th {
-  background: #f7f8fc;
+  background: #f8fafc;
   color: var(--text-muted);
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font-size: var(--text-base);
+  font-weight: 600;
   padding: 14px 20px;
   text-align: left;
   border-bottom: 1px solid var(--border);
@@ -108,7 +120,7 @@ tbody td {
 }
 
 .course-code {
-  color: var(--navy);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -126,16 +138,19 @@ tbody td {
 .status-approved {
   background: var(--success-bg);
   color: var(--success-text);
+  border: 1px solid var(--success-border);
 }
 
 .status-pending {
   background: var(--pending-bg);
   color: var(--pending-text);
+  border: 1px solid var(--pending-border);
 }
 
 .status-rejected {
   background: var(--rejected-bg);
   color: var(--rejected-text);
+  border: 1px solid var(--rejected-border);
 }
 
 /* ===== ACTION BUTTONS COLUMN ===== */
