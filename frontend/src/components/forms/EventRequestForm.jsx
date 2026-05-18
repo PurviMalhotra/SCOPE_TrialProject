@@ -43,6 +43,8 @@ export default function EventRequestForm({
   mode = "create",
 }) {
   const [form, setForm] = useState(initialData || EMPTY_FORM);
+  const [resumeFileName, setResumeFileName] = useState("");
+  const [isParsingResume, setIsParsingResume] = useState(false);
   const [nextFacId, setNextFacId] = useState(2);
   const isReadOnly = mode === "view";
 
@@ -92,6 +94,7 @@ export default function EventRequestForm({
 
   const handleResumeUpload = async (e) => {
     const file = e.target.files?.[0];
+    setResumeFileName(file.name);
 
     if (!file) return;
 
@@ -109,27 +112,34 @@ export default function EventRequestForm({
     formData.append("resume", file);
 
     try {
+      setIsParsingResume(true);
+
       const response = await fetch("http://localhost:5000/api/resume/parse", {
         method: "POST",
         body: formData,
       });
 
-      const data = await response.json();
+      const res = await response.json();
+      const data = res.data;
 
-      // setForm((prev) => ({
-      //   ...prev,
-      //   expertName: data.expertName || prev.expertName,
-      //   designation: data.designation || prev.designation,
-      //   company: data.company || prev.company,
-      //   address: data.address || prev.address,
-      //   mobile: data.mobile || prev.mobile,
-      //   email: data.email || prev.email,
-      //   whatsapp: data.whatsapp || prev.whatsapp,
-      //   experience: data.experience || prev.experience,
-      // }));
+      setForm((prev) => ({
+        ...prev,
+        expertName: data.name || prev.expertName,
+        designation: data.designation || prev.designation,
+        company: data.companyName || prev.company,
+        address: data.address || prev.address,
+        mobile: data.mobileNumber || prev.mobile,
+        email: data.officialEmail || prev.email,
+        whatsapp: data.whatsappNumber || prev.whatsapp,
+        experience: data.yearsOfExperience || prev.experience,
+      }));
+
+      console.log(form);
+      setIsParsingResume(false);
     } catch (err) {
       console.error(err);
       alert("Failed to process resume.");
+      setIsParsingResume(false);
     }
   };
 
@@ -413,8 +423,30 @@ export default function EventRequestForm({
               </div>
             </div>
           </div>
-          <label className="btn-outline" style={{ cursor: "pointer" }}>
-            Autofill with Resume
+          <label
+            className="btn-outline"
+            style={{
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            {isParsingResume
+              ? "Parsing Resume..."
+              : resumeFileName || "Autofill with Resume"}{" "}
             <input
               type="file"
               accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
