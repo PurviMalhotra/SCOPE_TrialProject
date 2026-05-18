@@ -35,13 +35,18 @@ import {
   ENCLOSURE_DOCS,
 } from "../../constants";
 
-export default function EventRequestForm({ onBack, onSubmit, onDelete, initialData, mode = "create" }) {
+export default function EventRequestForm({
+  onBack,
+  onSubmit,
+  onDelete,
+  initialData,
+  mode = "create",
+}) {
   const [form, setForm] = useState(initialData || EMPTY_FORM);
   const [nextFacId, setNextFacId] = useState(2);
   const isReadOnly = mode === "view";
 
-  const update = (field, value) =>
-    setForm((f) => ({ ...f, [field]: value }));
+  const update = (field, value) => setForm((f) => ({ ...f, [field]: value }));
 
   const addFaculty = () => {
     setForm((f) => ({
@@ -63,7 +68,7 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
     setForm((f) => ({
       ...f,
       faculty: f.faculty.map((fac) =>
-        fac.id === id ? { ...fac, [field]: value } : fac
+        fac.id === id ? { ...fac, [field]: value } : fac,
       ),
     }));
   };
@@ -73,11 +78,59 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
   };
 
   const handleSubmit = () => {
-    if (!form.lectureTitle || !form.courseCode || !form.courseTitle || !form.expertName) {
+    if (
+      !form.lectureTitle ||
+      !form.courseCode ||
+      !form.courseTitle ||
+      !form.expertName
+    ) {
       alert("Please fill in all required fields.");
       return;
     }
     onSubmit(form);
+  };
+
+  const handleResumeUpload = async (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    const validTypes = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    if (!validTypes.includes(file.type)) {
+      alert("Please upload a PDF or DOCX file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("resume", file);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/resume/parse", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      // setForm((prev) => ({
+      //   ...prev,
+      //   expertName: data.expertName || prev.expertName,
+      //   designation: data.designation || prev.designation,
+      //   company: data.company || prev.company,
+      //   address: data.address || prev.address,
+      //   mobile: data.mobile || prev.mobile,
+      //   email: data.email || prev.email,
+      //   whatsapp: data.whatsapp || prev.whatsapp,
+      //   experience: data.experience || prev.experience,
+      // }));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to process resume.");
+    }
   };
 
   return (
@@ -85,14 +138,34 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
       {/* ===== FORM PAGE HEADER ===== */}
       <div className="form-page-header">
         <button className="back-btn" onClick={onBack}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
             <polyline points="15 18 9 12 15 6" />
           </svg>
-          <span>{mode === "view" ? "View Event Request" : mode === "edit" ? "Edit Event Request" : "Event request"}</span>
+          <span>
+            {mode === "view"
+              ? "View Event Request"
+              : mode === "edit"
+                ? "Edit Event Request"
+                : "Event request"}
+          </span>
         </button>
         <button className="btn-outline">
           View Guidelines
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <polyline points="9 18 15 12 9 6" />
           </svg>
         </button>
@@ -100,12 +173,18 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
 
       {/* ===== FORM SECTIONS CONTAINER ===== */}
       <div className="form-sections">
-
         {/* SECTION 1: GUEST LECTURE TYPE */}
         <div className="form-card">
           <div className="form-card-header">
             <div className="form-card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="16" y1="13" x2="8" y2="13" />
@@ -115,7 +194,9 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
             </div>
             <div>
               <div className="form-card-title">Guest Lecture Type</div>
-              <div className="form-card-sub">Select the type of guest lecturer</div>
+              <div className="form-card-sub">
+                Select the type of guest lecturer
+              </div>
             </div>
           </div>
 
@@ -148,7 +229,14 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
         <div className="form-card">
           <div className="form-card-header">
             <div className="form-card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                 <circle cx="9" cy="7" r="4" />
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -157,7 +245,9 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
             </div>
             <div>
               <div className="form-card-title">Faculty Information</div>
-              <div className="form-card-sub">Add faculty members submitting this request</div>
+              <div className="form-card-sub">
+                Add faculty members submitting this request
+              </div>
             </div>
           </div>
 
@@ -174,14 +264,18 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
               <tbody>
                 {form.faculty.map((fac, idx) => (
                   <tr key={fac.id}>
-                    <td style={{ color: "#6b7a99", fontSize: 14 }}>{idx + 1}.</td>
+                    <td style={{ color: "#6b7a99", fontSize: 14 }}>
+                      {idx + 1}.
+                    </td>
                     <td style={{ paddingRight: 12 }}>
                       <input
                         className="faculty-input"
                         placeholder="Select ID"
                         value={fac.employeeId}
                         readOnly={isReadOnly}
-                        onChange={(e) => updateFaculty(fac.id, "employeeId", e.target.value)}
+                        onChange={(e) =>
+                          updateFaculty(fac.id, "employeeId", e.target.value)
+                        }
                       />
                     </td>
                     <td style={{ paddingRight: 12 }}>
@@ -190,20 +284,32 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
                         placeholder="Select Faculty"
                         value={fac.name}
                         readOnly={isReadOnly}
-                        onChange={(e) => updateFaculty(fac.id, "name", e.target.value)}
+                        onChange={(e) =>
+                          updateFaculty(fac.id, "name", e.target.value)
+                        }
                       />
                     </td>
                     <td>
                       {idx === form.faculty.length - 1 && !isReadOnly ? (
                         <button className="btn-add" onClick={addFaculty}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="2.5"
+                          >
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                           </svg>
                           Add
                         </button>
                       ) : !isReadOnly && form.faculty.length > 1 ? (
-                        <button className="btn-remove" onClick={() => removeFaculty(fac.id)}>
+                        <button
+                          className="btn-remove"
+                          onClick={() => removeFaculty(fac.id)}
+                        >
                           Remove
                         </button>
                       ) : null}
@@ -219,14 +325,25 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
         <div className="form-card">
           <div className="form-card-header">
             <div className="form-card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
               </svg>
             </div>
             <div>
-              <div className="form-card-title">8th Module Guest Lecture Details</div>
-              <div className="form-card-sub">Provide the basic details about the guest lecture</div>
+              <div className="form-card-title">
+                8th Module Guest Lecture Details
+              </div>
+              <div className="form-card-sub">
+                Provide the basic details about the guest lecture
+              </div>
             </div>
           </div>
 
@@ -277,16 +394,35 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
         <div className="form-card">
           <div className="form-card-header">
             <div className="form-card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
             </div>
             <div>
               <div className="form-card-title">Expert Details</div>
-              <div className="form-card-sub">Information about the guest lecturer/expert</div>
+              <div className="form-card-sub">
+                Information about the guest lecturer/expert
+              </div>
             </div>
           </div>
+          <label className="btn-outline" style={{ cursor: "pointer" }}>
+            Autofill with Resume
+            <input
+              type="file"
+              accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              style={{ display: "none" }}
+              onChange={handleResumeUpload}
+            />
+          </label>
+          <br />
 
           <div className="form-grid" style={{ gap: 18 }}>
             <div className="form-grid form-grid-2">
@@ -383,7 +519,8 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
               </div>
               <div className="form-group">
                 <label className="form-label">
-                  Expert's Years of Experience <span className="required">*</span>
+                  Expert's Years of Experience{" "}
+                  <span className="required">*</span>
                 </label>
                 <input
                   className="form-input"
@@ -401,7 +538,14 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
         <div className="form-card">
           <div className="form-card-header">
             <div className="form-card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                 <line x1="16" y1="2" x2="16" y2="6" />
                 <line x1="8" y1="2" x2="8" y2="6" />
@@ -410,7 +554,9 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
             </div>
             <div>
               <div className="form-card-title">Event Schedule & Venue</div>
-              <div className="form-card-sub">Specify when and where the lecture will take place</div>
+              <div className="form-card-sub">
+                Specify when and where the lecture will take place
+              </div>
             </div>
           </div>
 
@@ -476,14 +622,23 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
         <div className="form-card">
           <div className="form-card-header">
             <div className="form-card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M3 9h18M9 21V9" />
               </svg>
             </div>
             <div>
               <div className="form-card-title">Brochure Template</div>
-              <div className="form-card-sub">Choose a template for your event brochure</div>
+              <div className="form-card-sub">
+                Choose a template for your event brochure
+              </div>
             </div>
           </div>
 
@@ -509,7 +664,14 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
         <div className="form-card">
           <div className="form-card-header">
             <div className="form-card-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="12" y1="18" x2="12" y2="12" />
@@ -517,8 +679,12 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
               </svg>
             </div>
             <div>
-              <div className="form-card-title">Enclosure Details (Check List)</div>
-              <div className="form-card-sub">Select the documents to include with the request</div>
+              <div className="form-card-title">
+                Enclosure Details (Check List)
+              </div>
+              <div className="form-card-sub">
+                Select the documents to include with the request
+              </div>
             </div>
           </div>
 
@@ -547,17 +713,27 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
                       <label
                         className={`file-upload-btn ${form.files[doc.key] ? "uploaded" : ""}`}
                       >
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                           <polyline points="17 8 12 3 7 8" />
                           <line x1="12" y1="3" x2="12" y2="15" />
                         </svg>
-                        {form.files[doc.key] ? form.files[doc.key] : "Choose File"}
+                        {form.files[doc.key]
+                          ? form.files[doc.key]
+                          : "Choose File"}
                         <input
                           type="file"
                           style={{ display: "none" }}
                           onChange={(e) =>
-                            e.target.files[0] && setFile(doc.key, e.target.files[0].name)
+                            e.target.files[0] &&
+                            setFile(doc.key, e.target.files[0].name)
                           }
                         />
                       </label>
@@ -582,16 +758,34 @@ export default function EventRequestForm({ onBack, onSubmit, onDelete, initialDa
         )}
 
         {mode === "edit" && (
-          <div className="form-footer" style={{ justifyContent: "space-between" }}>
-            <button 
-              className="btn-remove" 
+          <div
+            className="form-footer"
+            style={{ justifyContent: "space-between" }}
+          >
+            <button
+              className="btn-remove"
               onClick={(e) => {
                 e.preventDefault();
                 if (onDelete) onDelete();
               }}
-              style={{ padding: "10px 24px", fontSize: "15px", display: "flex", alignItems: "center", gap: "6px" }}
+              style={{
+                padding: "10px 24px",
+                fontSize: "15px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="3 6 5 6 21 6" />
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                 <line x1="10" y1="11" x2="10" y2="17" />
