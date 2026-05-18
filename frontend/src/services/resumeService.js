@@ -2,7 +2,9 @@ export async function parseResume(file) {
   const formData = new FormData();
   formData.append("resume", file);
 
-  const response = await fetch("http://localhost:5000/api/resume/parse", {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const response = await fetch(`${API_URL}/api/resume/parse`, {
     method: "POST",
     body: formData,
   });
