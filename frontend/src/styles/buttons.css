@@ -29,9 +29,9 @@
   color: white;
   font-family: var(--font-primary);
   font-size: var(--text-base);
-  font-weight: 500;
+  font-weight: 700;
   padding: var(--spacing-sm) 18px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
@@ -51,9 +51,9 @@
   color: var(--navy);
   font-family: var(--font-primary);
   font-size: var(--text-base);
-  font-weight: 500;
+  font-weight: 700;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
@@ -66,13 +66,13 @@
    Used in form footer to cancel/go back. */
 .btn-cancel {
   background: white;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--navy);
   color: var(--text);
   font-family: var(--font-primary);
   font-size: var(--text-base);
-  font-weight: 500;
+  font-weight: 700;
   padding: 10px 24px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
@@ -90,9 +90,9 @@
   color: white;
   font-family: var(--font-primary);
   font-size: var(--text-base);
-  font-weight: 500;
+  font-weight: 700;
   padding: 10px 28px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
@@ -114,7 +114,7 @@
   font-size: var(--text-sm);
   font-weight: 500;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
   cursor: pointer;
   transition: all var(--transition-fast);
   white-space: nowrap;
@@ -133,7 +133,7 @@
   font-family: var(--font-primary);
   font-size: var(--text-sm);
   padding: 6px var(--spacing-sm);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-btn);
   cursor: pointer;
   transition: all var(--transition-fast);
 }

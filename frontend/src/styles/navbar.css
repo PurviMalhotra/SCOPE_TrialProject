@@ -44,10 +44,9 @@
    Circular brand icon.
    TODO [CSS]: Replace with an <img> tag in Navbar.jsx for a real logo. */
 .navbar-logo {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 45px;
   background: white;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +66,7 @@
 .navbar-title {
   font-size: var(--text-md);
   font-weight: 600;
-  color: var(--navy);
+  color: var(--navy-dark);
   letter-spacing: -0.3px;
 }
 

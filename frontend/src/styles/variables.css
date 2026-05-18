@@ -19,15 +19,15 @@
    /* ===== PRIMARY COLORS =====
      Main brand colors used throughout the app.
      TODO [CSS]: Change these to match your brand identity. */
-   --navy: #1a2f5e;
-   --navy-dark: #0f1d3d;
-   --navy-light: #2a4080;
+   --navy: #003D7A;
+   --navy-dark: #0F172B;
+   --navy-light: #2c4180;
 
    /* ===== ACCENT COLORS =====
      Used for highlights, selected states, active indicators.
      TODO [CSS]: These are derived from --navy. Update if you change the brand color. */
    --accent: #1a2f5e;
-   --accent-light: #e8edf8;
+   --accent-light: #F1F5F9;
 
    /* ===== NEUTRAL COLORS =====
      Background, card, and border colors. */
@@ -36,14 +36,14 @@
    /* Page background */
    --card-bg: #ffffff;
    /* Card/panel backgrounds */
-   --border: #e2e8f0;
+   --border: #E2E8F0;
    /* Default border color */
 
    /* ===== TEXT COLORS =====
      Three levels of text emphasis for hierarchy. */
-   --text: #1a2540;
+   --text: #0A0A0A;
    /* Primary text — headings, body */
-   --text-muted: #6b7a99;
+   --text-muted: #45556C;
    /* Secondary text — labels, descriptions */
    --text-light: #9aa3bc;
    /* Tertiary text — placeholders, hints */
@@ -52,12 +52,15 @@
      Background and text colors for status badges.
      Each status has a bg (light) and text (dark) pair.
      TODO [CSS]: Add more statuses here if needed (e.g., --draft-bg, --draft-text). */
-   --success-bg: #e6f7ee;
-   --success-text: #1a7a45;
-   --pending-bg: #fff8e6;
-   --pending-text: #8a5f00;
-   --rejected-bg: #fde8e8;
-   --rejected-text: #9b1c1c;
+   --success-bg: #DCFCE7;
+   --success-text: #016630;
+   --success-border:#7BF1A8;
+   --pending-bg: #FEF9C2;
+   --pending-text: #894B00;
+   --pending-border:#FFDF20;
+   --rejected-bg: #FFE2E2;
+   --rejected-text: #9F0712;
+   --rejected-border:#FFA2A2;
 
    /* ===== DANGER / ERROR COLOR =====
      Used for remove buttons, required markers, error states. */
@@ -73,12 +76,13 @@
    /* ===== BORDER RADIUS =====
      Consistent rounding across all components.
      TODO [CSS]: Increase these for a more "rounded" look, decrease for sharper edges. */
-   --radius: 12px;
+   --radius: 14px;
    /* Cards, modals */
    --radius-sm: 8px;
    /* Buttons, inputs, small elements */
    --radius-pill: 20px;
    /* Badges, pills */
+   --radius-btn: 38px;
 
    /* ===== SPACING =====
      Consistent spacing scale. Used for padding, margin, gap.
@@ -93,7 +97,7 @@
    /* ===== TYPOGRAPHY =====
      Font families used across the app.
      TODO [CSS]: Change --font-primary to your preferred font (e.g., Inter, Roboto). */
-   --font-primary: 'DM Sans', sans-serif;
+   --font-primary: 'Open Sans', sans-serif;
    --font-display: 'DM Serif Display', serif;
 
    /* ===== FONT SIZES =====
@@ -102,21 +106,21 @@
    --text-xs: 12px;
    --text-sm: 13px;
    --text-base: 14px;
-   --text-md: 16px;
-   --text-lg: 17px;
+   --text-md: 18px;
+   --text-lg: 20px;
    --text-xl: 22px;
    --text-2xl: 24px;
 
    /* ===== LAYOUT =====
      Page-level layout constraints. */
-   --page-max-width: 1200px;
-   --navbar-height: 64px;
+   --page-max-width: 1500px;
+   --navbar-height: 80px;
 
    /* ===== SHADOWS =====
      Box shadows for elevated elements.
      TODO [CSS]: Adjust for more/less depth. */
    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+   --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
    --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
 
    /* ===== TRANSITIONS =====
