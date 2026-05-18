@@ -26,6 +26,7 @@
    ========================================================================== */
 
 import { useState } from "react";
+import { parseResume } from "../../services/resumeService";
 
 // --- Data Imports (updated path) ---
 import {
@@ -114,12 +115,7 @@ export default function EventRequestForm({
     try {
       setIsParsingResume(true);
 
-      const response = await fetch("http://localhost:5000/api/resume/parse", {
-        method: "POST",
-        body: formData,
-      });
-
-      const res = await response.json();
+      const res = await parseResume(file);
       const data = res.data;
 
       setForm((prev) => ({
