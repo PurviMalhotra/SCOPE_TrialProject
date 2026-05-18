@@ -21,24 +21,49 @@ import { useEventRequests } from "../context/EventRequestContext";
 
 export default function Dashboard({ onNewRequest, onViewRequest, onEditRequest, onDeleteRequest }) {
   const [search, setSearch] = useState("");
+  const [sortField, setSortField] = useState(null); // "date" | "status"
+  const [sortDir, setSortDir] = useState("asc");
 
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDir(sortDir === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDir("asc");
+    }
+  };
   // Get live requests from context
   const { requests } = useEventRequests();
 
   // Filter requests based on search query
-  const filtered = requests.filter(
-    (r) =>
-      r.topic.toLowerCase().includes(search.toLowerCase()) ||
-      r.code.toLowerCase().includes(search.toLowerCase()) ||
-      r.course.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = requests
+    .filter(
+      (r) =>
+        r.topic.toLowerCase().includes(search.toLowerCase()) ||
+        r.code.toLowerCase().includes(search.toLowerCase()) ||
+        r.course.toLowerCase().includes(search.toLowerCase()) ||
+        r.lectureBy.toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (!sortField) return 0;
+      let valA, valB;
+      if (sortField === "date") {
+        valA = new Date(a.date);
+        valB = new Date(b.date);
+      } else {
+        valA = a.status.toLowerCase();
+        valB = b.status.toLowerCase();
+      }
+      if (valA < valB) return sortDir === "asc" ? -1 : 1;
+      if (valA > valB) return sortDir === "asc" ? 1 : -1;
+      return 0;
+    });
 
   return (
     <div className="page">
       {/* ===== DASHBOARD HEADER ===== */}
       <div className="dashboard-header">
         <h1 className="dashboard-title">My Event Requests</h1>
-
         <div className="dashboard-controls">
           <span className="request-count">{requests.length} requests</span>
 
@@ -82,14 +107,14 @@ export default function Dashboard({ onNewRequest, onViewRequest, onEditRequest, 
                 <th>Course Code</th>
                 <th>Course Name</th>
                 <th>Lecture by</th>
-                <th>
+                <th onClick={() => handleSort("date")} style={{ cursor: "pointer" }}>
                   <span className="col-header-sort">
-                    Date <span className="sort-arrow">↓</span>
+                    Date <span className="sort-arrow">{sortField === "date" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}</span>
                   </span>
                 </th>
-                <th>
+                <th onClick={() => handleSort("status")} style={{ cursor: "pointer" }}>
                   <span className="col-header-sort">
-                    Status <span className="sort-arrow">↑</span>
+                    Status <span className="sort-arrow">{sortField === "status" ? (sortDir === "asc" ? "↑" : "↓") : "↕"}</span>
                   </span>
                 </th>
                 <th>Action</th>
