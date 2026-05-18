@@ -2,7 +2,7 @@ export async function parseResume(file) {
   const formData = new FormData();
   formData.append("resume", file);
 
-  const response = await fetch("http://localhost:5000/api/resume/parse", {
+  const response = await fetch("http://localhost:5500/api/resume/parse", {
     method: "POST",
     body: formData,
   });
