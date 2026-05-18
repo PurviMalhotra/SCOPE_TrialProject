@@ -31,20 +31,20 @@
   border: none;
   cursor: pointer;
   font-family: var(--font-primary);
-  font-size: var(--text-xl);
-  font-weight: 600;
-  color: var(--navy);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--navy-dark);
 }
 
 .back-btn span {
-  font-size: var(--text-xl);
+  font-size: var(--text-2xl);
 }
 
 /* ===== 2. FORM CARD SECTIONS ===== */
 .form-sections {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 /* White card container for each form section */
@@ -52,17 +52,16 @@
   background: var(--white);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  padding: 28px;
+  padding: 32px;
+  box-shadow: var(--shadow-md);
 }
 
 /* Card header: icon + title + subtitle */
 .form-card-header {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 16px;
   margin-bottom: var(--spacing-lg);
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f0f2f7;
 }
 
 /* Icon square in card header */
@@ -76,14 +75,14 @@
   justify-content: center;
   flex-shrink: 0;
   font-size: 20px;
-  color: var(--navy);
+  color: var(--navy-dark);
 }
 
 .form-card-title {
   font-size: var(--text-lg);
   font-weight: 600;
-  color: var(--navy);
-  margin-bottom: 3px;
+  color: var(--navy-dark);
+  margin-bottom: 4px;
 }
 
 .form-card-sub {
@@ -103,10 +102,10 @@
 .radio-option {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex: 1;
   min-width: 160px;
-  padding: 14px 18px;
+  padding: 16px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -119,7 +118,6 @@
 }
 
 .radio-option:hover {
-  border-color: var(--navy);
   background: var(--accent-light);
 }
 
@@ -147,8 +145,8 @@
 }
 
 .radio-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--navy);
   display: none;
@@ -163,20 +161,23 @@
    TODO [BACKEND]: Faculty data (employeeId, name) should be validated server-side. */
 .faculty-table {
   width: 100%;
-  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  border-collapse: separate;
+  overflow: hidden;
 }
 
 .faculty-table th {
   text-align: left;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
+  font-size: var(--text-base);
+  color: var(--text);
   font-weight: 500;
-  padding: var(--spacing-sm) 0;
+  padding: var(--spacing-sm);
   border-bottom: 1px solid var(--border);
 }
 
 .faculty-table td {
-  padding: 10px 0;
+  padding: var(--spacing-sm);
   vertical-align: middle;
 }
 
@@ -217,7 +218,7 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 8px;
 }
 
 .form-label {
@@ -277,7 +278,6 @@
 }
 
 .template-card:hover {
-  border-color: var(--navy);
   background: var(--accent-light);
 }
 
@@ -321,32 +321,41 @@
    TODO [BACKEND]: Wire file uploads to your file storage API (e.g., S3, GCS). */
 .enclosure-table {
   width: 100%;
-  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  border-collapse: separate;
+  overflow: hidden;
+  table-layout: fixed;
 }
 
 .enclosure-table th {
   text-align: left;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   color: var(--text-muted);
-  font-weight: 500;
-  padding: 10px 0;
+  font-weight: 600;
+  padding: var(--spacing-sm);
   border-bottom: 1px solid var(--border);
 }
 
 .enclosure-table td {
-  padding: 14px 0;
+  padding: var(--spacing-sm);
   border-bottom: 1px solid #f0f2f7;
   font-size: var(--text-base);
+  vertical-align: middle;
+  text-align: left;
 }
 
 .enclosure-table tr:last-child td {
   border-bottom: none;
+  text-align: left;
 }
 
 /* File upload button — changes style when file is uploaded */
 .file-upload-btn {
-  display: flex;
+  display: inline-flex;
+  justify-content: center;
   align-items: center;
+  width: fit-content;
   gap: var(--spacing-sm);
   border: 1.5px solid var(--border);
   background: white;
