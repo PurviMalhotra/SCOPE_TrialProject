@@ -1,0 +1,102 @@
+/* ==========================================================================
+   NAVBAR.CSS — Top Navigation Bar Styles
+   ==========================================================================
+   
+   Component: <Navbar />
+   Location:  src/components/Navbar.jsx
+   
+   Structure:
+   .navbar
+   ├── .navbar-brand
+   │   ├── .navbar-logo     (VIT logo circle)
+   │   └── .navbar-title    (Portal name text)
+   └── .navbar-logout       (Logout button with icon)
+   
+   TODO [CSS]: To add more nav items (e.g., links, profile menu),
+   add new classes here following the .navbar-* naming convention.
+   ========================================================================== */
+
+/* ===== NAVBAR CONTAINER =====
+   Sticky top bar with white background.
+   TODO [CSS]: Change background to var(--navy) for a dark navbar look. */
+.navbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--spacing-2xl);
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ===== BRAND SECTION =====
+   Left side — logo + title. */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* ===== LOGO CIRCLE =====
+   Circular brand icon.
+   TODO [CSS]: Replace with an <img> tag in Navbar.jsx for a real logo. */
+.navbar-logo {
+  width: 42px;
+  height: 45px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  overflow: hidden;
+}
+
+.navbar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== PORTAL TITLE ===== */
+.navbar-title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--navy-dark);
+  letter-spacing: -0.3px;
+}
+
+/* ===== LOGOUT BUTTON =====
+   Right side — logout action with icon.
+   TODO [BACKEND]: Wire this to your auth logout endpoint. */
+.navbar-logout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: var(--text-base);
+  font-family: var(--font-primary);
+  padding: 6px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.navbar-logout:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ===== RESPONSIVE =====
+   Reduce horizontal padding on mobile. */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+  }
+}

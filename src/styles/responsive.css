@@ -1,0 +1,285 @@
+/* ==========================================================================
+   RESPONSIVE.CSS — Comprehensive Responsive Styles
+   ==========================================================================
+   
+   Breakpoints:
+   - Desktop:  > 1024px  (default styles in other CSS files)
+   - Tablet:   768px–1024px
+   - Mobile:   < 768px
+   - Small:    < 480px
+   
+   This file handles:
+   1. Dashboard header & controls stacking
+   2. Table horizontal scrolling
+   3. Form card padding adjustments
+   4. Navbar compact mode
+   5. Template grid column adjustments
+   ========================================================================== */
+
+/* ===== TABLE SCROLL WRAPPER =====
+   Enables horizontal scrolling for tables on small screens */
+.table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.faculty-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== TABLET (768px – 1024px) ===== */
+@media (max-width: 1024px) {
+  /* Dashboard header stacks title and controls */
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .dashboard-controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  /* Template grid: 2 columns on tablet */
+  .template-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Form cards reduce padding */
+  .form-card {
+    padding: 22px;
+  }
+}
+
+/* ===== MOBILE (< 768px) ===== */
+@media (max-width: 768px) {
+  /* Page padding */
+  .page {
+    padding: var(--spacing-md);
+  }
+
+  /* Navbar */
+  .navbar {
+    padding: 0 var(--spacing-md);
+    height: 56px;
+  }
+
+  .navbar-title {
+    font-size: var(--text-base);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+
+  .navbar-logo {
+    width: 34px;
+    height: 34px;
+    font-size: var(--text-xs);
+  }
+
+  .navbar-logout {
+    font-size: var(--text-sm);
+    padding: 4px 6px;
+  }
+
+  /* Dashboard */
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .dashboard-title {
+    font-size: var(--text-xl);
+  }
+
+  .dashboard-controls {
+    width: 100%;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .request-count {
+    align-self: flex-start;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Table */
+  .table-card {
+    border-radius: var(--radius-sm);
+  }
+
+  .table-scroll-wrapper {
+    min-width: 100%;
+  }
+
+  .table-scroll-wrapper table {
+    min-width: 700px;
+  }
+
+  thead th {
+    padding: 10px 14px;
+    font-size: var(--text-xs);
+  }
+
+  tbody td {
+    padding: 10px 14px;
+    font-size: var(--text-sm);
+  }
+
+  /* Form */
+  .form-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .back-btn {
+    font-size: var(--text-lg);
+  }
+
+  .back-btn span {
+    font-size: var(--text-lg);
+  }
+
+  .form-card {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+  }
+
+  .form-card-header {
+    gap: 10px;
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .form-card-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .form-card-title {
+    font-size: var(--text-md);
+  }
+
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Radio group stacks vertically on mobile */
+  .radio-group {
+    flex-direction: column;
+  }
+
+  .radio-option {
+    min-width: unset;
+  }
+
+  /* Template grid: 2 columns on mobile */
+  .template-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .template-card {
+    padding: 14px 8px;
+  }
+
+  .template-icon {
+    width: 50px;
+    height: 64px;
+    font-size: 22px;
+  }
+
+  /* Faculty table scroll */
+  .faculty-table-wrapper table {
+    min-width: 500px;
+  }
+
+  /* Enclosure table */
+  .enclosure-table td,
+  .enclosure-table th {
+    font-size: var(--text-sm);
+  }
+
+  /* Form footer */
+  .form-footer {
+    flex-direction: column-reverse;
+    gap: var(--spacing-sm);
+  }
+
+  .form-footer .btn-cancel,
+  .form-footer .btn-submit {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* File upload button */
+  .file-upload-btn {
+    font-size: var(--text-xs);
+    padding: 6px 10px;
+  }
+}
+
+/* ===== SMALL MOBILE (< 480px) ===== */
+@media (max-width: 480px) {
+  .page {
+    padding: var(--spacing-sm);
+  }
+
+  .navbar-title {
+    max-width: 140px;
+    font-size: var(--text-sm);
+  }
+
+  .dashboard-title {
+    font-size: var(--text-lg);
+  }
+
+  /* Template grid: single column on very small screens */
+  .template-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card {
+    padding: 12px;
+  }
+
+  .form-card-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .status-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+}
