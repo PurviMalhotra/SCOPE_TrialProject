@@ -1,18 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+const app = require("./app");
+const env = require("./config/env");
+const logger = require("./utils/logger");
 
-const resumeRoutes = require("./routes/resumeRoutes");
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.use("/api/resume", resumeRoutes);
-
-const PORT = process.env.PORT || 5500;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(env.port, () => {
+  logger.info(`Server running on port ${env.port}`);
 });

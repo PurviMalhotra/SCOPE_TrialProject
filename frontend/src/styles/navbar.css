@@ -73,6 +73,39 @@
 /* ===== LOGOUT BUTTON =====
    Right side — logout action with icon.
    TODO [BACKEND]: Wire this to your auth logout endpoint. */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.navbar-user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 0;
+}
+
+.navbar-user span {
+  color: var(--text);
+  font-size: var(--text-base);
+  font-weight: 700;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar-user small {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .navbar-logout {
   display: flex;
   align-items: center;
@@ -98,5 +131,9 @@
 @media (max-width: 768px) {
   .navbar {
     padding: 0 20px;
+  }
+
+  .navbar-user {
+    display: none;
   }
 }

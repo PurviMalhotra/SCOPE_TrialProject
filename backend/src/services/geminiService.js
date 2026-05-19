@@ -1,6 +1,21 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const AppError = require("../utils/AppError");
 
 const client = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const normalizeGeminiError = (err) => {
+  const message = err?.message || "";
+
+  if (message.includes("API key expired") || message.includes("API_KEY_INVALID")) {
+    return new AppError("Gemini API key is expired or invalid. Please update GEMINI_API_KEY in backend/.env.", 502);
+  }
+
+  if (message.includes("API key not valid")) {
+    return new AppError("Gemini API key is not valid. Please update GEMINI_API_KEY in backend/.env.", 502);
+  }
+
+  return err;
+};
 
 const analyzeResumeWithGemini = async (rawText) => {
   const model = client.getGenerativeModel({
@@ -33,7 +48,12 @@ Resume text:
 ${rawText}
 `;
 
-  const result = await model.generateContent(prompt);
+  let result;
+  try {
+    result = await model.generateContent(prompt);
+  } catch (err) {
+    throw normalizeGeminiError(err);
+  }
 
   let responseText = result.response.text().trim();
 
@@ -61,4 +81,3 @@ ${rawText}
 };
 
 module.exports = analyzeResumeWithGemini;
-
