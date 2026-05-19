@@ -22,9 +22,9 @@
  * 
  * @param {Object} props
  * @param {Function} props.onLogout - Handler called when logout button is clicked.
- *                                     TODO [BACKEND]: Connect to auth logout API.
+ * @param {Object} props.user - Authenticated user.
  */
-export default function Navbar({ onLogout }) {
+export default function Navbar({ onLogout, user }) {
   return (
     <nav className="navbar">
       {/* --- Left side: Brand logo and title --- */}
@@ -36,17 +36,22 @@ export default function Navbar({ onLogout }) {
         <span className="navbar-title">SCOPE Event Management Portal</span>
       </div>
 
-      {/* --- Right side: Logout button --- */}
-      {/* TODO [BACKEND]: This should call your auth logout API */}
-      <button className="navbar-logout" onClick={onLogout}>
-        {/* Logout icon (SVG) */}
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <polyline points="16 17 21 12 16 7" />
-          <line x1="21" y1="12" x2="9" y2="12" />
-        </svg>
-        Logout
-      </button>
+      <div className="navbar-actions">
+        <div className="navbar-user">
+          <span>{user?.name || user?.email}</span>
+          <small>{user?.email}</small>
+        </div>
+
+        <button className="navbar-logout" onClick={onLogout}>
+          {/* Logout icon (SVG) */}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Logout
+        </button>
+      </div>
     </nav>
   );
 }
