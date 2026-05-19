@@ -95,9 +95,9 @@ export default function EventRequestForm({
 
   const handleResumeUpload = async (e) => {
     const file = e.target.files?.[0];
-    setResumeFileName(file.name);
 
     if (!file) return;
+    setResumeFileName(file.name);
 
     const validTypes = [
       "application/pdf",
@@ -134,7 +134,7 @@ export default function EventRequestForm({
       setIsParsingResume(false);
     } catch (err) {
       console.error(err);
-      alert("Failed to process resume.");
+      alert(err.message || "Failed to process resume.");
       setIsParsingResume(false);
     }
   };

@@ -1,0 +1,124 @@
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--spacing-xl);
+  background:
+    linear-gradient(rgba(248, 250, 252, 0.92), rgba(248, 250, 252, 0.92)),
+    url("/logo.png") center 18% / 260px auto no-repeat,
+    var(--bg);
+}
+
+.login-panel {
+  width: min(100%, 440px);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-xl);
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.login-brand img {
+  width: 58px;
+  height: 62px;
+  object-fit: contain;
+}
+
+.login-brand p {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.login-brand h1 {
+  color: var(--navy-dark);
+  font-size: var(--text-lg);
+  line-height: 1.2;
+}
+
+.login-copy {
+  margin-bottom: var(--spacing-lg);
+}
+
+.login-copy h2 {
+  color: var(--text);
+  font-size: var(--text-2xl);
+  margin-bottom: var(--spacing-sm);
+}
+
+.login-copy p {
+  color: var(--text-muted);
+  font-size: var(--text-base);
+  line-height: 1.55;
+}
+
+.login-error {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-light);
+  border-radius: var(--radius-sm);
+  color: var(--danger);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.google-login-btn {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--navy);
+  border: none;
+  border-radius: var(--radius-btn);
+  color: var(--white);
+  cursor: pointer;
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  font-weight: 700;
+  transition: background var(--transition-fast);
+}
+
+.google-login-btn:hover {
+  background: var(--navy-light);
+}
+
+.google-mark {
+  width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--white);
+  border-radius: 50%;
+  color: var(--navy);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.auth-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  font-size: var(--text-base);
+}
+
+@media (max-width: 520px) {
+  .login-page {
+    padding: var(--spacing-md);
+  }
+
+  .login-panel {
+    padding: var(--spacing-lg);
+  }
+}
