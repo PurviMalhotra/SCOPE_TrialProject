@@ -6,7 +6,7 @@ const env = {
   corsOrigin: process.env.CORS_ORIGIN || "*",
   jwtSecret: process.env.JWT_SECRET || "dev-only-secret",
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "1d",
-  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
+  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5170",
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID || "",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",

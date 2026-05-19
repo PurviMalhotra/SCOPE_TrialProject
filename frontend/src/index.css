@@ -12,7 +12,8 @@
    4. navbar.css     — Top navigation bar
    5. dashboard.css  — Dashboard page (table, search, status badges)
    6. form.css       — Event request form (cards, inputs, templates)
-   7. responsive.css — Responsive breakpoints (MUST be last to override)
+   7. auth.css       — Login and authentication states
+   8. responsive.css — Responsive breakpoints (MUST be last to override)
    
    TODO [CSS]: To add a new component's styles, create a new .css file
    in src/styles/ and add an @import line here.
@@ -24,4 +25,5 @@
 @import './styles/navbar.css';
 @import './styles/dashboard.css';
 @import './styles/form.css';
+@import './styles/auth.css';
 @import './styles/responsive.css';
