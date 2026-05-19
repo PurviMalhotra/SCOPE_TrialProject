@@ -15,8 +15,14 @@
    - DELETE /api/event-requests/:id  → delete request
    ========================================================================== */
 
-import { createContext, useContext, useState } from "react";
-import { INITIAL_REQUESTS, LECTURE_TYPE_MAP } from "../constants";
+import {
+  getRequests,
+  createRequest,
+  updateRequest as updateRequestAPI,
+  deleteRequest as deleteRequestAPI,
+} from "../services/eventService";
+import { createContext, useContext, useEffect, useState } from "react";
+import { INITIAL_REQUESTS } from "../constants";
 
 const EventRequestContext = createContext();
 
@@ -36,88 +42,60 @@ export function useEventRequests() {
  */
 export function EventRequestProvider({ children }) {
   const [requests, setRequests] = useState(INITIAL_REQUESTS);
-  const [nextId, setNextId] = useState(INITIAL_REQUESTS.length + 1);
+  const loadRequests = async () => {
+  try {
+    const data = await getRequests();
+    setRequests(data);
+  } catch (err) {
+    console.error(err);
+  }
+};
+useEffect(() => {
+  loadRequests();
+}, []);
+  
 
   /**
    * Add a new event request from form submission data.
    */
-  const addRequest = (formData) => {
-    // Use the form's eventDate if provided, otherwise use today
-    let formattedDate;
-    if (formData.eventDate) {
-      const d = new Date(formData.eventDate + "T00:00:00");
-      formattedDate = d.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } else {
-      formattedDate = new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    }
+  const addRequest = async (formData) => {
+  try {
+    await createRequest(formData);
 
-    const newRequest = {
-      id: nextId,
-      topic: formData.lectureTitle,
-      code: formData.courseCode,
-      course: formData.courseTitle,
-      lectureBy: LECTURE_TYPE_MAP[formData.lectureType] || "Indian Expert",
-      date: formattedDate,
-      status: "Pending",
-      // Store full form data so we can edit later
-      formData: { ...formData },
-    };
-
-    setRequests((prev) => [newRequest, ...prev]);
-    setNextId((n) => n + 1);
-  };
+    await loadRequests();
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
 
   /**
    * Update an existing event request by ID.
    */
-  const updateRequest = (id, formData) => {
-    let formattedDate;
-    if (formData.eventDate) {
-      const d = new Date(formData.eventDate + "T00:00:00");
-      formattedDate = d.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } else {
-      formattedDate = new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    }
+  const updateRequest = async (id, formData) => {
+  try {
+    await updateRequestAPI(id, formData);
 
-    setRequests((prev) =>
-      prev.map((r) =>
-        r.id === id
-          ? {
-              ...r,
-              topic: formData.lectureTitle,
-              code: formData.courseCode,
-              course: formData.courseTitle,
-              lectureBy: LECTURE_TYPE_MAP[formData.lectureType] || "Indian Expert",
-              date: formattedDate,
-              formData: { ...formData },
-            }
-          : r
-      )
-    );
-  };
+    await loadRequests();
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
 
   /**
    * Delete an event request by ID.
    */
-  const deleteRequest = (id) => {
-    setRequests((prev) => prev.filter((r) => r.id !== id));
-  };
+  const deleteRequest = async (id) => {
+  try {
+    await deleteRequestAPI(id);
+
+    await loadRequests();
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
 
   return (
     <EventRequestContext.Provider

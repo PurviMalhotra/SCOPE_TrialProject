@@ -5,9 +5,7 @@ import App from './App.jsx'
 import { EventRequestProvider } from './context/EventRequestContext'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <EventRequestProvider>
-      <App />
-    </EventRequestProvider>
-  </StrictMode>,
+  <EventRequestProvider>
+    <App />
+  </EventRequestProvider>,
 )
