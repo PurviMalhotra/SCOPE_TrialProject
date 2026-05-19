@@ -1,16 +1,18 @@
+import { API_BASE_URL, authHeaders } from "./authService";
+
 export async function parseResume(file) {
   const formData = new FormData();
   formData.append("resume", file);
 
-  const apiUrl = import.meta.env.VITE_API_URL;
-
-  const response = await fetch(`${API_URL}/api/resume/parse`, {
+  const response = await fetch(`${API_BASE_URL}/api/resume/parse`, {
     method: "POST",
+    headers: authHeaders(),
     body: formData,
   });
 
   if (!response.ok) {
-    throw new Error("Failed to parse resume");
+    const body = await response.json().catch(() => null);
+    throw new Error(body?.error || "Failed to parse resume");
   }
 
   return response.json();

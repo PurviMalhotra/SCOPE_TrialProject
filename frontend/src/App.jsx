@@ -9,7 +9,7 @@
    - "view"      → EventRequestForm in VIEW mode (read-only, pre-filled)
    ========================================================================== */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // --- Component Imports ---
 import Navbar from "./components/layout/Navbar";
@@ -17,10 +17,36 @@ import SuccessModal from "./components/ui/SuccessModal";
 
 // --- Page Imports ---
 import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 import EventRequestForm from "./components/forms/EventRequestForm";
 
 // --- Context Import ---
 import { useEventRequests } from "./context/EventRequestContext";
+import {
+  clearStoredToken,
+  getCurrentUser,
+  getStoredToken,
+  logoutUser,
+  storeToken,
+} from "./services/authService";
+
+const getInitialAuthToken = () => {
+  const params = new URLSearchParams(window.location.search);
+  const callbackToken = params.get("token");
+
+  if (!callbackToken) {
+    return getStoredToken();
+  }
+
+  storeToken(callbackToken);
+  params.delete("token");
+
+  const nextSearch = params.toString();
+  const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ""}${window.location.hash}`;
+  window.history.replaceState({}, document.title, nextUrl);
+
+  return callbackToken;
+};
 
 export default function App() {
   const [page, setPage] = useState("dashboard");
@@ -28,8 +54,49 @@ export default function App() {
   const [editId, setEditId] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [authChecking, setAuthChecking] = useState(() => Boolean(getStoredToken()));
+  const [authError, setAuthError] = useState("");
+  const [token, setToken] = useState(getInitialAuthToken);
+  const [user, setUser] = useState(null);
 
   const { addRequest, updateRequest, deleteRequest } = useEventRequests();
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const loadUser = async () => {
+      setAuthChecking(true);
+      setAuthError("");
+
+      try {
+        const currentUser = await getCurrentUser(token);
+        if (!cancelled) {
+          setUser(currentUser);
+        }
+      } catch (err) {
+        clearStoredToken();
+        if (!cancelled) {
+          setToken(null);
+          setUser(null);
+          setAuthError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setAuthChecking(false);
+        }
+      }
+    };
+
+    loadUser();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
 
   const handleNewRequest = () => {
     setViewData(null);
@@ -159,6 +226,27 @@ export default function App() {
     setEditId(null);
   };
 
+  const handleLogout = async () => {
+    try {
+      await logoutUser(token);
+    } catch (err) {
+      setAuthError(err.message);
+    } finally {
+      clearStoredToken();
+      setToken(null);
+      setUser(null);
+      setPage("dashboard");
+    }
+  };
+
+  if (authChecking) {
+    return <div className="auth-loading">Checking your session...</div>;
+  }
+
+  if (!user) {
+    return <Login error={authError} />;
+  }
+
   return (
     <>
       <SuccessModal
@@ -166,7 +254,7 @@ export default function App() {
         message={toastMessage}
         onClose={handleModalClose}
       />
-      <Navbar onLogout={() => setPage("dashboard")} />
+      <Navbar user={user} onLogout={handleLogout} />
 
       {page === "dashboard" && (
         <Dashboard
