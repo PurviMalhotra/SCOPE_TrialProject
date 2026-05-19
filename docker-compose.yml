@@ -22,9 +22,15 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-scope-uploads}
       MINIO_PUBLIC_BASE_URL: http://localhost:9000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-scope_event_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-scope_dev_2026}
     ports:
       - "5500:5500"
     depends_on:
+      - postgres
       - redis
       - minio
 
@@ -55,6 +61,20 @@ services:
     ports:
       - "6379:6379"
 
+  postgres:
+    image: postgres:16-alpine
+    container_name: scope-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-scope_event_db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-scope_dev_2026}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./backend/database/schema/001_schema.sql:/docker-entrypoint-initdb.d/001_schema.sql:ro
+      - ./backend/database/schema/002_seed.sql:/docker-entrypoint-initdb.d/002_seed.sql:ro
+
   minio:
     image: minio/minio:latest
     container_name: scope-minio
@@ -70,3 +90,4 @@ services:
 
 volumes:
   minio-data:
+  postgres-data:
