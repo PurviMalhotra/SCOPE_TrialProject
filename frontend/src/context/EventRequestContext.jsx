@@ -22,7 +22,7 @@ import {
   deleteRequest as deleteRequestAPI,
 } from "../services/eventService";
 import { createContext, useContext, useEffect, useState } from "react";
-import { INITIAL_REQUESTS, LECTURE_TYPE_MAP } from "../constants";
+import { INITIAL_REQUESTS } from "../constants";
 
 const EventRequestContext = createContext();
 
@@ -53,7 +53,7 @@ export function EventRequestProvider({ children }) {
 useEffect(() => {
   loadRequests();
 }, []);
-  const [nextId, setNextId] = useState(INITIAL_REQUESTS.length + 1);
+  
 
   /**
    * Add a new event request from form submission data.
