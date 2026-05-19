@@ -75,7 +75,7 @@ Resume text:
 ${rawText}
 `;
 
-  const MAX_RETRIES = 3;
+  const MAX_RETRIES = 5;
 
   let result;
 
