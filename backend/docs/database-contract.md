@@ -1,6 +1,6 @@
 # Database Integration Contract
 
-The database team owns PostgreSQL schema design and migrations. The backend currently uses in-memory repositories only as placeholders. Replace repository implementations without moving SQL into routes, controllers, or services.
+The database team owns PostgreSQL schema design and migrations. Event request persistence is now wired to PostgreSQL through the repository layer. Keep future database changes inside repositories and do not move SQL into routes, controllers, or services.
 
 ## Repository Boundary
 
