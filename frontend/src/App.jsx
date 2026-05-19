@@ -192,30 +192,44 @@ export default function App() {
   /**
    * Delete a request with confirmation.
    */
-  const handleDeleteRequest = (r) => {
-    if (window.confirm(`Delete "${r.topic}"? This cannot be undone.`)) {
-      deleteRequest(r.id);
+  const handleDeleteRequest = async (r) => {
+    if (!window.confirm(`Delete "${r.topic}"? This cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await deleteRequest(r.id);
       setToastMessage("Your request has been deleted successfully.");
       setSubmitted(true);
+    } catch {
+      // Error surfaced in context via alert
     }
   };
 
   /**
    * Handle new form submission.
    */
-  const handleSubmit = (formData) => {
-    addRequest(formData);
-    setToastMessage("Your request has been submitted successfully.");
-    setSubmitted(true);
+  const handleSubmit = async (formData) => {
+    try {
+      await addRequest(formData);
+      setToastMessage("Your request has been submitted successfully.");
+      setSubmitted(true);
+    } catch {
+      // Error surfaced in context via alert
+    }
   };
 
   /**
    * Handle edit form submission — updates existing request.
    */
-  const handleEditSubmit = (formData) => {
-    updateRequest(editId, formData);
-    setToastMessage("Your request has been updated successfully.");
-    setSubmitted(true);
+  const handleEditSubmit = async (formData) => {
+    try {
+      await updateRequest(editId, formData);
+      setToastMessage("Your request has been updated successfully.");
+      setSubmitted(true);
+    } catch {
+      // Error surfaced in context via alert
+    }
   };
 
   const handleModalClose = () => {

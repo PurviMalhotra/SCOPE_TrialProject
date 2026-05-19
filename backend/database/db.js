@@ -1,4 +1,6 @@
-require("dotenv").config();
+const path = require("path");
+
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 const { Pool } = require("pg");
 
 const pool = new Pool({
@@ -15,7 +17,10 @@ const pool = new Pool({
 pool.connect((err, client, release) => {
   if (err) {
     console.error("DB connection failed:", err.message);
-    process.exit(1);
+    console.error(
+      "  Event requests require PostgreSQL. Set DB_* in backend/.env and run database/schema/004_add_form_data.sql"
+    );
+    return;
   }
   console.log(`Connected to PostgreSQL → ${process.env.DB_NAME}`);
   release();

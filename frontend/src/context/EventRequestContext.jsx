@@ -22,7 +22,6 @@ import {
   deleteRequest as deleteRequestAPI,
 } from "../services/eventService";
 import { createContext, useContext, useEffect, useState } from "react";
-import { INITIAL_REQUESTS } from "../constants";
 
 const EventRequestContext = createContext();
 
@@ -41,7 +40,7 @@ export function useEventRequests() {
  * EventRequestProvider — Wraps the app to provide shared event request state.
  */
 export function EventRequestProvider({ children }) {
-  const [requests, setRequests] = useState(INITIAL_REQUESTS);
+  const [requests, setRequests] = useState([]);
   const loadRequests = async () => {
   try {
     const data = await getRequests();
@@ -66,6 +65,7 @@ useEffect(() => {
   } catch (err) {
     console.error(err);
     alert(err.message);
+    throw err;
   }
 };
 
@@ -80,6 +80,7 @@ useEffect(() => {
   } catch (err) {
     console.error(err);
     alert(err.message);
+    throw err;
   }
 };
 
@@ -94,6 +95,7 @@ useEffect(() => {
   } catch (err) {
     console.error(err);
     alert(err.message);
+    throw err;
   }
 };
 

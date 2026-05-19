@@ -50,6 +50,9 @@ echo "Applying schema..."
 echo "Loading seed data..."
 "${PSQL[@]}" -v ON_ERROR_STOP=1 -d "${DB_NAME}" -f "${SCHEMA_DIR}/002_seed.sql"
 
+echo "Applying form_data migration..."
+"${PSQL[@]}" -v ON_ERROR_STOP=1 -d "${DB_NAME}" -f "${SCHEMA_DIR}/004_add_form_data.sql"
+
 echo ""
 echo "Done. Verify with:"
 echo "  ./database/scripts/verify.sh ${DB_NAME}"

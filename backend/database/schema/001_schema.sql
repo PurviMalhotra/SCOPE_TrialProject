@@ -98,6 +98,7 @@ CREATE TABLE event_requests (
 
     submitted_by        INTEGER REFERENCES faculty (faculty_id) ON DELETE SET NULL,
     status            request_status    NOT NULL DEFAULT 'draft',
+    form_data         JSONB,
     rejection_reason  TEXT,
     submitted_at      TIMESTAMPTZ,
     reviewed_at       TIMESTAMPTZ,
