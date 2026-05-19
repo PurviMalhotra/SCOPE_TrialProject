@@ -1,6 +1,10 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const AppError = require("../utils/AppError");
 
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 const client = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const normalizeGeminiError = (err) => {
@@ -24,6 +28,20 @@ const normalizeGeminiError = (err) => {
   }
 
   return err;
+};
+
+const isRetryableError = (err) => {
+  const message = err?.message?.toLowerCase() || "";
+
+  return (
+    message.includes("503") ||
+    message.includes("overloaded") ||
+    message.includes("high demand") ||
+    message.includes("busy") ||
+    message.includes("unavailable") ||
+    message.includes("rate limit") ||
+    message.includes("timeout")
+  );
 };
 
 const analyzeResumeWithGemini = async (rawText) => {
@@ -57,11 +75,28 @@ Resume text:
 ${rawText}
 `;
 
+  const MAX_RETRIES = 3;
+
   let result;
-  try {
-    result = await model.generateContent(prompt);
-  } catch (err) {
-    throw normalizeGeminiError(err);
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      result = await model.generateContent(prompt);
+      break;
+    } catch (err) {
+      const normalizedError = normalizeGeminiError(err);
+
+      if (!isRetryableError(normalizedError) || attempt === MAX_RETRIES) {
+        throw normalizedError;
+      }
+
+      console.log(
+        `Gemini temporarily unavailable. Retrying ${attempt}/${MAX_RETRIES}...`,
+      );
+
+      // exponential backoff
+      await sleep(1000 * attempt);
+    }
   }
 
   let responseText = result.response.text().trim();
