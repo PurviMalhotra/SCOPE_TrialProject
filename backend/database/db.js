@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-// database/db.js
->>>>>>> 72ec70eb385ff65011e110ee01eff1cd6ecc322f
 require("dotenv").config();
 const { Pool } = require("pg");
 
@@ -52,8 +48,4 @@ async function withTransaction(fn) {
   }
 }
 
-<<<<<<< HEAD
 module.exports = { pool, query, withTransaction };
-=======
-module.exports = { pool, query, withTransaction };
->>>>>>> 72ec70eb385ff65011e110ee01eff1cd6ecc322f
