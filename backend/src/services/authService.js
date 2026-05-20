@@ -75,11 +75,25 @@ const exchangeGoogleCode = async (code) => {
 };
 
 const getCurrentUser = async (user) => {
-  return user;
+  const stored = await userRepository.findById(user.id);
+  return stored || user;
+};
+
+const devLogin = async (email) => {
+  const user = await userRepository.findByEmail(email);
+  if (!user) {
+    throw new AppError("No user found for that email", 404);
+  }
+
+  return {
+    user,
+    token: signToken(user),
+  };
 };
 
 module.exports = {
   getGoogleLoginUrl,
   exchangeGoogleCode,
   getCurrentUser,
+  devLogin,
 };

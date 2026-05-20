@@ -1,4 +1,22 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: scope-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-scope_dev_2026}
+      POSTGRES_DB: ${DB_NAME:-scope_event_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./backend/database/schema:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d scope_event_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   backend:
     build:
       context: ./backend
@@ -7,14 +25,20 @@ services:
       PORT: 5500
       NODE_ENV: ${NODE_ENV:-development}
       CORS_ORIGIN: ${CORS_ORIGIN:-*}
-      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5170}
       JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-me}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1d}
+      ENABLE_DEV_AUTH: ${ENABLE_DEV_AUTH:-true}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
       GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:5500/api/auth/google/callback}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       REDIS_URL: redis://redis:6379
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-scope_event_db}
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-scope_dev_2026}
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
       MINIO_USE_SSL: "false"
@@ -25,8 +49,12 @@ services:
     ports:
       - "5500:5500"
     depends_on:
-      - redis
-      - minio
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
 
   resume-worker:
     build:
@@ -38,6 +66,11 @@ services:
       JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-me}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       REDIS_URL: redis://redis:6379
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-scope_event_db}
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD:-scope_dev_2026}
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
       MINIO_USE_SSL: "false"
@@ -46,8 +79,12 @@ services:
       MINIO_BUCKET: ${MINIO_BUCKET:-scope-uploads}
       MINIO_PUBLIC_BASE_URL: http://localhost:9000
     depends_on:
-      - redis
-      - minio
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
 
   redis:
     image: redis:7-alpine
@@ -69,4 +106,5 @@ services:
       - minio-data:/data
 
 volumes:
+  postgres-data:
   minio-data:

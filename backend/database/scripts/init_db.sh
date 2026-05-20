@@ -45,10 +45,10 @@ echo "Creating database: ${DB_NAME}"
 "${CREATEDB[@]}" "${DB_NAME}" 2>/dev/null || echo "  (database may already exist, continuing...)"
 
 echo "Applying schema..."
-"${PSQL[@]}" -v ON_ERROR_STOP=1 -d "${DB_NAME}" -f "${SCHEMA_DIR}/001_schema.sql"
-
-echo "Loading seed data..."
-"${PSQL[@]}" -v ON_ERROR_STOP=1 -d "${DB_NAME}" -f "${SCHEMA_DIR}/002_seed.sql"
+for sql_file in "${SCHEMA_DIR}"/00*.sql; do
+    echo "  → $(basename "${sql_file}")"
+    "${PSQL[@]}" -v ON_ERROR_STOP=1 -d "${DB_NAME}" -f "${sql_file}"
+done
 
 echo ""
 echo "Done. Verify with:"
