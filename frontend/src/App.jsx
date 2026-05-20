@@ -30,12 +30,21 @@ import {
   storeToken,
 } from "./services/authService";
 
-const getInitialAuthToken = () => {
+const getInitialAuthState = () => {
   const params = new URLSearchParams(window.location.search);
   const callbackToken = params.get("token");
+  const authError = params.get("auth_error");
+
+  if (authError) {
+    params.delete("auth_error");
+    const nextSearch = params.toString();
+    const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ""}${window.location.hash}`;
+    window.history.replaceState({}, document.title, nextUrl);
+    return { token: null, authError: decodeURIComponent(authError) };
+  }
 
   if (!callbackToken) {
-    return getStoredToken();
+    return { token: getStoredToken(), authError: "" };
   }
 
   storeToken(callbackToken);
@@ -45,7 +54,7 @@ const getInitialAuthToken = () => {
   const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ""}${window.location.hash}`;
   window.history.replaceState({}, document.title, nextUrl);
 
-  return callbackToken;
+  return { token: callbackToken, authError: "" };
 };
 
 export default function App() {
@@ -54,9 +63,10 @@ export default function App() {
   const [editId, setEditId] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [authChecking, setAuthChecking] = useState(() => Boolean(getStoredToken()));
-  const [authError, setAuthError] = useState("");
-  const [token, setToken] = useState(getInitialAuthToken);
+  const initialAuth = getInitialAuthState();
+  const [authChecking, setAuthChecking] = useState(() => Boolean(initialAuth.token));
+  const [authError, setAuthError] = useState(initialAuth.authError);
+  const [token, setToken] = useState(initialAuth.token);
   const [user, setUser] = useState(null);
 
   const { addRequest, updateRequest, deleteRequest } = useEventRequests();
@@ -244,7 +254,17 @@ export default function App() {
   }
 
   if (!user) {
-    return <Login error={authError} />;
+    return (
+      <Login
+        error={authError}
+        onLogin={(newToken, newUser) => {
+          storeToken(newToken);
+          setToken(newToken);
+          setUser(newUser);
+          setAuthError("");
+        }}
+      />
+    );
   }
 
   return (

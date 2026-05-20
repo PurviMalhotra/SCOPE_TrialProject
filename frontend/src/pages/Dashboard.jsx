@@ -23,7 +23,7 @@ export default function Dashboard({ onNewRequest, onViewRequest, onEditRequest, 
   const [search, setSearch] = useState("");
 
   // Get live requests from context
-  const { requests } = useEventRequests();
+  const { requests, loading } = useEventRequests();
 
   // Filter requests based on search query
   const filtered = requests.filter(
@@ -40,7 +40,9 @@ export default function Dashboard({ onNewRequest, onViewRequest, onEditRequest, 
         <h1 className="dashboard-title">My Event Requests</h1>
 
         <div className="dashboard-controls">
-          <span className="request-count">{requests.length} requests</span>
+          <span className="request-count">
+            {loading ? "Syncing..." : `${requests.length} requests`}
+          </span>
 
           <div className="search-box">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa3bc" strokeWidth="2">
